@@ -14,10 +14,11 @@
 
 # Vérifier les paramètres d'entrée
 	#Si le premier paramètre existe, on suppose que c'est le nom du fichier
-	if [ -z $1 ]
+	if [ $# -eq 1 ]
 	then
+		echo "Vous avez choisi un seul paramètre : $1"
 		#Vérfier l'existence du fichier
-			if [ -e $1 ]
+			if [ -e "$1" ]
 			then
 				# Créer un tableau qui recevera la liste des mots du dictionnaire
 				mots=()
@@ -42,14 +43,16 @@
 								done
 				done
 			else	
-				echo "Une erreur est survenue. Le fichier mentionné n/'existe pas"
+				echo "Une erreur est survenue. Le fichier mentionné n existe pas"
 			fi
-	elif [ -z $2 ]
+	elif [ $# -eq 2 ]
 	then 
 		#Si deux paramètres
-		echo "Deux param"
+		echo "Deux param $1 $2"
+	elif [ $# -eq 0 ]
+	then 
+		#Si daucun param
+		echo "Un erreur est survenue. Aucun fichier n a été fourni en entrée"
 	else
-		echo "Un erreur est survenue. Aucun fichier n/'a été fourni en entrée"
+		echo "Un erreur est survenue. le nombre de paramètres fourni est erroné. Merci de fournir entre un et deux paramètres."
 	fi						
-					
-					
