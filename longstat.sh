@@ -27,22 +27,23 @@
 				filename="$1"
 				while read "line" 
 				do
-					echo "Text read from file: $line"
+					#echo "Text read from file: $line"
 					mots+=("$line")
 				done < "$filename"
 				
 				 # pour chaque lettre dans l'alphabet
-				for lettre in {a..z}
+				for lettre in {A..Z}
 					do
 						let "occurence = 0"
 						# pour chaque entrée dans le tableau
 							for mot in "${mots[@]}"
 								do
-								   echo "$mot"
-								   # calculer occurence lettre
-								   occurence $lettre $mot
-								   
+								   if [[ $mot =~ .*$lettre.* ]]
+								   then
+										let "occurence=occurence+1"
+									fi						   
 								done
+						echo "$occurence - $lettre"
 				done
 			else	
 				echo "Une erreur est survenue. Le fichier mentionné n existe pas"
