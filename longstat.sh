@@ -2,7 +2,7 @@
 
 ###########################################################################################
 # longstat.sh
-# Création : 27/04/2016
+# Création : 28/04/2016
 # Ce script bash fournit des statistiques sur l'utilisation des lettres dans une langue
 # Paramètres :
 #			(1) nom du fichier  : obligatoire
@@ -13,8 +13,8 @@
 
 
 # Vérifier les paramètres d'entrée
-	#Si le premier paramètre existe, on suppose que c'est le nom du fichier
 	if [ $# -eq 1 ]
+	#Si le premier paramètre existe, on suppose que c'est le nom du fichier
 	then
 		echo "Vous avez saisi un seul paramètre : $1"
 		#Vérfier l'existence du fichier
@@ -43,10 +43,12 @@
 										let "occurence=occurence+1"
 									fi						   
 								done
-						echo "$occurence - $lettre"
-				done
+						#Printf permet de faire un meilleur formattage du texte
+						printf "%-5s - $lettre \n" $occurence
+						#echo "$occurence - $lettre"
+			    	done
 			else	
-				echo "Une erreur est survenue. Le fichier mentionné n existe pas"
+				echo "Une erreur est survenue. Le fichier mentionné n'existe pas"
 			fi
 	elif [ $# -eq 2 ]
 	then 
@@ -55,7 +57,8 @@
 	elif [ $# -eq 0 ]
 	then 
 		#Si daucun param
-		echo "Un erreur est survenue. Aucun fichier n a été fourni en entrée"
+		echo "Un erreur est survenue. Aucun fichier n'a été fourni en entrée"
 	else
+	    #Si plus de deux paramètres
 		echo "Un erreur est survenue. le nombre de paramètres fourni est erroné. Merci de fournir entre un et deux paramètres."
 	fi						
