@@ -9,8 +9,12 @@
 #			(2) 				: Facultatif
 ###########################################################################################
 
-
-
+#Fonction de triage
+#Paramètre : tableau à trier
+trier() {
+  IFS=$'\n' sorted=($(sort <<<"${1[*]}"))
+  unset IFS
+}
 
 # Vérifier les paramètres d'entrée
 	if [ $# -eq 1 ]
@@ -22,31 +26,42 @@
 			then
 				# Créer un tableau qui recevera la liste des mots du dictionnaire
 				mots=()
+				# Créer un tableau qui recevera le resultat des statistiques
+				stats=()
 				#Lire fichier et charger chaque mots dans le tableau
 				# le -r permet de ne pas interpreter les blancs
 				filename="$1"
-				while read "line" 
+				while IFS= read -r line
 				do
-					#echo "Text read from file: $line"
 					mots+=("$line")
 				done < "$filename"
-				
-				 # pour chaque lettre dans l'alphabet
+
+				# pour chaque lettre dans l'alphabet
 				for lettre in {A..Z}
 					do
-						let "occurence = 0"
+				    	#Initialisation de la variable occurence
+			        	declare -i occurence=0
 						# pour chaque entrée dans le tableau
 							for mot in "${mots[@]}"
-								do
-								   if [[ $mot =~ .*$lettre.* ]]
-								   then
-										let "occurence=occurence+1"
-									fi						   
+						    	do
+    							    if [[ $mot =~ .*$lettre.* ]]
+    								   then
+    										let "occurence=occurence+1"
+    								fi
 								done
 						#Printf permet de faire un meilleur formattage du texte
-						printf "%-5s - $lettre \n" $occurence
-						#echo "$occurence - $lettre"
+						#printf "%-5s - $lettre \n" $occurence
+						stats+=("$occurence - $lettre \n")
 			    	done
+			    	
+			    #Affichage du résultat
+			    arr2=( $(
+    for el in "${stats[@]}"
+    do
+        echo "$el"
+    done | sort) )
+			    for i in ${arr2[@]}; do printf $i; done
+			    
 			else	
 				echo "Une erreur est survenue. Le fichier mentionné n'existe pas"
 			fi
