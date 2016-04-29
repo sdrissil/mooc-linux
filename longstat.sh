@@ -11,10 +11,7 @@
 
 #Fonction de triage
 #Paramètre : tableau à trier
-trier() {
-  IFS=$'\n' sorted=($(sort <<<"${1[*]}"))
-  unset IFS
-}
+
 
 # Vérifier les paramètres d'entrée
 	if [ $# -eq 1 ]
@@ -49,18 +46,18 @@ trier() {
     										let "occurence=occurence+1"
     								fi
 								done
-						#Printf permet de faire un meilleur formattage du texte
-						#printf "%-5s - $lettre \n" $occurence
 						stats+=("$occurence - $lettre \n")
 			    	done
 			    	
-			    #Affichage du résultat
-			    arr2=( $(
-    for el in "${stats[@]}"
-    do
-        echo "$el"
-    done | sort) )
-			    for i in ${arr2[@]}; do printf $i; done
+			    #Tri des stats
+			    stats_triees=( $(
+                for el in "${stats[@]}"
+                do
+                    echo "$el"
+                done | sort) )
+                
+                #Affichage du résultat
+			    for stat in ${stats_triees[@]}; do printf $stat; done
 			    
 			else	
 				echo "Une erreur est survenue. Le fichier mentionné n'existe pas"
